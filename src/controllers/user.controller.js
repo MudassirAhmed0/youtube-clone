@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloundinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+
 const validateRequiredFields = (requiredFields) => {
   if (requiredFields.some((field) => !field?.trim())) {
     throw new ApiError(400, "Required Fields are not submitted!");
@@ -21,7 +22,8 @@ const checkIfUserExist = async (username, email) => {
 const validateAndUploadImagesOnCloudinary = async (files) => {
   const localAvatarPath = files?.avatar[0]?.path;
   const localCoverImagePath =
-    files?.coverImage?.length > 0 ? files?.coverImage[0]?.path : "";
+    files?.coverImage?.length > 0 ? files?.coverImage[0]?.path : undefined;
+
   if (!localAvatarPath) {
     throw new ApiError(400, "Avatar is Required");
   }
